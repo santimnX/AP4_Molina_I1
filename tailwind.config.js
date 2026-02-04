@@ -1,8 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  // NOTE: Update this to include the paths to all files that contain Nativewind classes.
-  content: ["./App.tsx", "./components/**/*.{js,jsx,ts,tsx}"],
-  presets: [require("nativewind/preset")],
+  // CAMBIO CLAVE: Apuntar a la carpeta "src" donde vive tu código real
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  presets: [require("nativewind/preset")],# Limpia caché y trata de pre-construir
+  npx expo prebuild --platform android --clean
   theme: {
     extend: {},
   },
