@@ -1,6 +1,6 @@
 import { useAuth } from '@/src/lib/modules/auth/AuthProvider';
 import { authService } from '@/src/lib/modules/auth/auth.service';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 
 type Profile = {
@@ -15,12 +15,11 @@ export default function ProfileScreen() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadProfile();
-  }, []);
-
-  const loadProfile = async () => {
-    if (!session?.user.id) return;
+  const loadProfile = useCallback(async () => {
+    if (!session?.user.id) {
+      setLoading(false);
+      return;
+    }
 
     try {
       const data = await authService.getProfile(session.user.id);
@@ -30,7 +29,11 @@ export default function ProfileScreen() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [session?.user.id]);
+
+  useEffect(() => {
+    loadProfile();
+  }, [loadProfile]);
 
   if (loading) {
     return (

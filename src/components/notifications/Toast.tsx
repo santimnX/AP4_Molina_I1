@@ -17,7 +17,7 @@ export const Toast = ({ message, onHide }: ToastProps) => {
   useEffect(() => {
     const timer = setTimeout(onHide, 3000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [onHide]);
 
   return (
     <Animated.View 
